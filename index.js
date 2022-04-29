@@ -28,6 +28,7 @@ window.addEventListener('DOMContentLoaded', event => {
             }
             this.color = color
             this.isAttacking;
+            this.health = 100;
         }
 
         draw() {
@@ -154,6 +155,8 @@ window.addEventListener('DOMContentLoaded', event => {
             player.isAttacking
             ) {
                 player.isAttacking = false;
+                enemy.health -= 20;
+                document.querySelector('#enemy-health').style.width = enemy.health + "%";
         }
 
         if (
@@ -164,6 +167,8 @@ window.addEventListener('DOMContentLoaded', event => {
             enemy.isAttacking
             ) {
                 enemy.isAttacking = false;
+                player.health -= 20;
+                document.querySelector('#player-health').style.width = player.health + "%";
         }
     }
 

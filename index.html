@@ -1,8 +1,25 @@
 <html>
     <head>
+        <link rel="stylesheet" href="./index.css">
         <script src="index.js"></script>
     </head>
     <body>
-        <canvas id="canvas"></canvas>
+        <div id="canvas-div">
+            <div id="health-container">
+                <!-- player health -->
+                <div id="player-health-container">
+                    <div id="player-health-background"></div>
+                    <div id="player-health"></div>
+                </div>
+                <!-- timer -->
+                <div id="timer"></div>
+                <!-- enemy health -->
+                <div id="enemy-health-container">
+                    <div id="enemy-health-background"></div>
+                    <div id="enemy-health"></div>
+                </div>
+            </div>
+            <canvas id="canvas"></canvas>
+        </div>
     </body>
 </html>
