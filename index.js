@@ -123,6 +123,33 @@ window.addEventListener('DOMContentLoaded', event => {
         )
     }
 
+    function determineWinner({ player, enemy }) {
+        const result = document.getElementById("result");
+        if (player.health === enemy.health) {
+            result.innerHTML = 'Tie!';
+        } else if (player.health > enemy.health) {
+            result.innerHTML = 'Player One Wins!';
+        } else if (player.health < enemy.health) {
+            result.innerHTML = 'Player Two Wins!';
+        }
+        result.style.display = 'flex';
+    }
+
+    let timer = 60;
+    let timerId;
+    function decreaseTimer() {
+        if (timer > 0) {
+            timerId = setTimeout(decreaseTimer, 1000);
+            timer--;
+            document.getElementById('timer').innerHTML = timer;
+        }
+        if (timer === 0) {
+            determineWinner({ player, enemy });
+        }
+    }
+
+    decreaseTimer();
+
     function animate() {
         window.requestAnimationFrame(animate);
         context.fillStyle = 'black';
@@ -169,6 +196,12 @@ window.addEventListener('DOMContentLoaded', event => {
                 enemy.isAttacking = false;
                 player.health -= 20;
                 document.querySelector('#player-health').style.width = player.health + "%";
+        }
+
+        // end game based on health
+        if (enemy.health <= 0 || player.health <= 0) {
+            determineWinner({ player, enemy });
+            clearTimeout(timerId);
         }
     }
 
