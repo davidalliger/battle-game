@@ -1,4 +1,5 @@
-import { Fighter } from "./js/classes.js";
+import { Fighter, Sprite } from "./js/classes.js";
+import { rectangularCollision, determineWinner, decreaseTimer } from './js/utils.js'
 
 window.addEventListener('DOMContentLoaded', event => {
     const canvas = document.getElementById('canvas');
@@ -9,7 +10,13 @@ window.addEventListener('DOMContentLoaded', event => {
 
     context.fillRect(0, 0, canvas.width, canvas.height);
 
-
+    const background = new Sprite( {
+        position: {
+            x: 0,
+            y: 0
+        },
+        imageSrc: './assets/background.png'
+    });
 
     const player = new Fighter({
         position: {
@@ -60,39 +67,6 @@ window.addEventListener('DOMContentLoaded', event => {
         }
     };
 
-    function rectangularCollision({ rectangle1, rectangle2 }) {
-        return (
-            rectangle1.attackBox.position.x + rectangle1.attackBox.width >= rectangle2.position.x &&
-            rectangle1.attackBox.position.x <= rectangle2.position.x + rectangle2.width &&
-            rectangle1.attackBox.position.y + rectangle1.attackBox.height >= rectangle2.position.y &&
-            rectangle1.attackBox.position.y <= rectangle2.position.y + rectangle2.height
-        )
-    }
-
-    function determineWinner({ player, enemy }) {
-        const result = document.getElementById("result");
-        if (player.health === enemy.health) {
-            result.innerHTML = 'Tie!';
-        } else if (player.health > enemy.health) {
-            result.innerHTML = 'Player One Wins!';
-        } else if (player.health < enemy.health) {
-            result.innerHTML = 'Player Two Wins!';
-        }
-        result.style.display = 'flex';
-    }
-
-    let timer = 60;
-    let timerId;
-    function decreaseTimer() {
-        if (timer > 0) {
-            timerId = setTimeout(decreaseTimer, 1000);
-            timer--;
-            document.getElementById('timer').innerHTML = timer;
-        }
-        if (timer === 0) {
-            determineWinner({ player, enemy });
-        }
-    }
 
     decreaseTimer();
 
@@ -100,6 +74,7 @@ window.addEventListener('DOMContentLoaded', event => {
         window.requestAnimationFrame(animate);
         context.fillStyle = 'black';
         context.fillRect(0, 0, canvas.width, canvas.height);
+        background.update();
         player.update();
         enemy.update();
         player.velocity.x = 0;
